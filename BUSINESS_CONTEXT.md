@@ -38,7 +38,28 @@
 - Manejo seguro de datos de pago (aunque simulado en MVP)
 - Políticas de retención de datos según esquemas por servicio
 
-## 4. Condiciones del Entorno Técnico:
+## 4. Perfiles de Usuario y Roles
+
+### Perfiles o Roles de Usuario en el Sistema
+
+Basado en la arquitectura del sistema, se identifican los siguientes perfiles implícitos:
+
+| Rol | Descripción |
+|---|---|
+| **Usuario / Comprador** | Consulta eventos, reserva asientos, gestiona su carrito y realiza pagos. Recibe notificaciones y tickets. |
+| **Sistema / Servicios internos** | Los microservicios interactúan entre sí mediante eventos Kafka y llamadas REST internas (no es un rol de usuario humano, pero es un actor clave del sistema). |
+
+> **Nota:** La documentación pública del repositorio no detalla roles administrativos explícitos en esta versión MVP. El Identity Service sugiere que existirá un sistema de autenticación con roles diferenciados en iteraciones futuras.
+
+### Permisos y Limitaciones de Cada Perfil
+
+- El **Usuario / Comprador** puede consultar el catálogo, reservar asientos, gestionar su carrito, pagar y recibir su ticket.
+- Un asiento reservado por un usuario no puede ser reservado simultáneamente por otro (garantizado por el lock distribuido en Redis).
+- El acceso al sistema requiere autenticación a través del **Identity Service**.
+
+---
+
+## 5. Condiciones del Entorno Técnico:
 
 **Plataformas Soportadas:**
 - **Backend:** Microservicios .NET 8+ desplegados en contenedores Docker
@@ -56,7 +77,7 @@
 - **Autenticación:** JWT tokens manejados por Identity Service
 - **Orquestación:** Docker Compose (desarrollo) con soporte para Kubernetes (futuro)
 
-## 5. Casos Especiales o Excepciones:
+## 6. Casos Especiales o Excepciones:
 
 **Escenarios Alternos o Excepciones que Deben Considerarse:**
 
